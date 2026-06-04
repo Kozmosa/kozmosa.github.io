@@ -1,0 +1,37 @@
+---
+import { allLocales } from '@/config'
+import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { ui } from '@/i18n/ui'
+import Layout from '@/layouts/Layout.astro'
+
+export async function getStaticPaths() {
+  return allLocales.map(lang => ({
+    params: { lang: getLangRouteParam(lang) },
+  }))
+}
+
+const currentLang = getLangFromLocale(Astro.currentLocale)
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
+
+// Friend links — add your friends here
+const friends = [
+  { name: 'Example', url: 'https://example.com', desc: currentLang === 'zh' ? '一个示例站点' : 'An example site' },
+]
+---
+
+<Layout>
+  <div class="uno-decorative-line" />
+  <div class="heti">
+    <h2>{currentUI.friends}</h2>
+    <ul class="list-none pl-0">
+      {friends.map(f => (
+        <li class="mb-4">
+          <a href={f.url} target="_blank" rel="noopener noreferrer" class="c-primary hover:underline">
+            {f.name}
+          </a>
+          <p class="mt-1 text-sm c-secondary">{f.desc}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>

@@ -31,6 +31,16 @@ const navItems = [
     label: currentUI.about,
     className: getNavItemClass(isAboutActive),
   },
+  {
+    href: '/friends/',
+    label: currentUI.friends,
+    external: false,
+  },
+  {
+    href: currentUI.resumeUrl,
+    label: currentUI.resume,
+    external: true,
+  },
 ]
 ---
 
@@ -46,8 +56,9 @@ const navItems = [
     {navItems.map(item => (
       <li>
         <a
-          href={getLocalizedPath(item.href)}
+          href={item.external ? item.href : getLocalizedPath(item.href)}
           class={item.className}
+          {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
           {item.label}
         </a>
