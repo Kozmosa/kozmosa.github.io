@@ -2,12 +2,12 @@
 import { ui } from '@/i18n/ui'
 import { getPageInfo } from '@/utils/page'
 
-const { currentLang, isHome, isPost, isTag, isAbout, getLocalizedPath } = getPageInfo(Astro.url.pathname)
+const { currentLang, isHome, isPost, isTag, isAbout, isPostsPage, getLocalizedPath } = getPageInfo(Astro.url.pathname)
 const currentUI = ui[currentLang as keyof typeof ui] ?? {}
 
-const isPostActive = isHome || isPost
+const isHomeActive = isHome && !isPost && !isTag && !isAbout
+const isPostsActive = isPost || isPostsPage
 const isTagActive = isTag
-const isAboutActive = isAbout
 
 function getNavItemClass(isActive: boolean) {
   return isActive
@@ -15,11 +15,18 @@ function getNavItemClass(isActive: boolean) {
     : 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)'
 }
 
+const navDefaultClass = 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)'
+
 const navItems = [
   {
     href: '/',
+    label: currentUI.home,
+    className: getNavItemClass(isHomeActive),
+  },
+  {
+    href: '/posts/',
     label: currentUI.posts,
-    className: getNavItemClass(isPostActive),
+    className: getNavItemClass(isPostsActive),
   },
   {
     href: '/tags/',
@@ -27,20 +34,15 @@ const navItems = [
     className: getNavItemClass(isTagActive),
   },
   {
-    href: '/about/',
-    label: currentUI.about,
-    className: getNavItemClass(isAboutActive),
-  },
-  {
     href: '/friends/',
     label: currentUI.friends,
-    className: 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)',
+    className: navDefaultClass,
     external: false,
   },
   {
     href: currentUI.resumeUrl,
     label: currentUI.resume,
-    className: 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)',
+    className: navDefaultClass,
     external: true,
   },
 ]

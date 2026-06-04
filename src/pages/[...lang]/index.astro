@@ -1,9 +1,8 @@
 ---
-import PostList from '@/components/PostList.astro'
+import { getCollection, render } from 'astro:content'
 import { allLocales } from '@/config'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
 import Layout from '@/layouts/Layout.astro'
-import { getPinnedPosts, getPostsByYear } from '@/utils/content'
 
 export async function getStaticPaths() {
   return allLocales.map(lang => ({
@@ -12,24 +11,15 @@ export async function getStaticPaths() {
 }
 
 const currentLang = getLangFromLocale(Astro.currentLocale)
-const pinnedPosts = await getPinnedPosts(currentLang)
-const postsByYear = await getPostsByYear(currentLang)
+const allAboutEntries = await getCollection('about')
+const aboutEntry = allAboutEntries.find(entry => entry.data.lang === currentLang)
+  ?? allAboutEntries.find(entry => entry.data.lang === '')
+const { Content } = aboutEntry ? await render(aboutEntry) : { Content: null }
 ---
 
 <Layout>
-  <!-- Pinned Posts -->
-  {pinnedPosts.length > 0 && (
-    <section class="mb-7.5">
-      <div class="uno-decorative-line" />
-      <PostList posts={pinnedPosts} lang={currentLang} pinned={true} />
-    </section>
-  )}
-
-  <!-- Regular Posts -->
-  {[...postsByYear.entries()].map(([_year, posts]) => (
-    <section class="mb-7.5">
-      <div class="uno-decorative-line" />
-      <PostList posts={posts} lang={currentLang} />
-    </section>
-  ))}
+  <div class="uno-decorative-line" />
+  <div class="heti academic-home">
+    {Content && <Content />}
+  </div>
 </Layout>

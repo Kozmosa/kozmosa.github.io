@@ -34,6 +34,18 @@ export function isPostPage(path: string) {
   return matchPageType(path, 'posts')
 }
 
+export function isPostsListingPage(path: string) {
+  // Exact match for /posts/ (not /posts/slug)
+  const pathWithoutBase = base && path.startsWith(base)
+    ? path.slice(base.length)
+    : path
+  const normalizedPath = pathWithoutBase.replace(/^\/|\/$/g, '')
+
+  if (normalizedPath === 'posts')
+    return true
+  return (moreLocales as readonly string[]).some(lang => normalizedPath === `${lang}/posts`)
+}
+
 export function isTagPage(path: string) {
   return matchPageType(path, 'tags')
 }
@@ -47,6 +59,7 @@ export function getPageInfo(path: string) {
   const currentLang = getLangFromPath(path)
   const isHome = isHomePage(path)
   const isPost = isPostPage(path)
+  const isPostsPage = isPostsListingPage(path)
   const isTag = isTagPage(path)
   const isAbout = isAboutPage(path)
 
@@ -54,6 +67,7 @@ export function getPageInfo(path: string) {
     currentLang,
     isHome,
     isPost,
+    isPostsPage,
     isTag,
     isAbout,
     getLocalizedPath: (targetPath: string) =>

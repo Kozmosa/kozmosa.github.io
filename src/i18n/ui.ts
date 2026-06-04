@@ -4,6 +4,7 @@ interface Translation {
   title: string
   subtitle: string
   description: string
+  home: string
   posts: string
   tags: string
   about: string
@@ -18,6 +19,7 @@ export const ui: Record<Language, Translation> = {
     title: 'Kozmosa',
     subtitle: 'Notes on computing and beyond',
     description: 'A personal blog by Kozmosa — notes on computing, code, and beyond.',
+    home: 'Home',
     posts: 'Posts',
     tags: 'Tags',
     about: 'About',
@@ -30,6 +32,7 @@ export const ui: Record<Language, Translation> = {
     title: 'Kozmosa',
     subtitle: '关于计算与超越的笔记',
     description: 'Kozmosa 的个人博客 —— 关于计算、代码与更多的思考。',
+    home: '主页',
     posts: '文章',
     tags: '标签',
     about: '关于',

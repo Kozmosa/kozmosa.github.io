@@ -172,3 +172,56 @@ pre.mermaid svg {
 .katex-display::-webkit-scrollbar {
   display: none;
 }
+
+/* Academic Homepage */
+.academic-home .academic-header {
+  margin-bottom: 2rem;
+}
+.academic-home .academic-name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: oklch(var(--un-preset-theme-colors-primary));
+}
+.academic-home .academic-tagline {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: oklch(var(--un-preset-theme-colors-secondary));
+  margin-bottom: 0.75rem;
+}
+.academic-home .academic-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.academic-home .academic-links li a {
+  color: oklch(var(--un-preset-theme-colors-primary));
+  text-decoration: none;
+  border-bottom: 1px solid oklch(var(--un-preset-theme-colors-primary) / 0.3);
+  transition: border-color 0.2s;
+}
+.academic-home .academic-links li a:hover {
+  border-bottom-color: oklch(var(--un-preset-theme-colors-primary));
+}
+.academic-home .exp-card,
+.academic-home .project-card {
+  border-left: 3px solid oklch(var(--un-preset-theme-colors-primary) / 0.3);
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1rem;
+  background: oklch(var(--un-preset-theme-colors-primary) / 0.03);
+  border-radius: 0 6px 6px 0;
+}
+.academic-home .exp-card:hover,
+.academic-home .project-card:hover {
+  background: oklch(var(--un-preset-theme-colors-primary) / 0.06);
+}
+.academic-home .exp-info,
+.academic-home .project-info {
+  line-height: 1.7;
+}
+.academic-home .exp-info em,
+.academic-home .project-info em {
+  color: oklch(var(--un-preset-theme-colors-secondary));
+}
