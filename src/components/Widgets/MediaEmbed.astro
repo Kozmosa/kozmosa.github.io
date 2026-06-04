@@ -34,11 +34,64 @@ async function setupTwitterEmbeds() {
   document.head.appendChild(script)
 }
 
+async function setupMermaidEmbeds() {
+  const mermaids = document.querySelectorAll('pre.mermaid')
+  if (mermaids.length === 0) {
+    return
+  }
+
+  mermaids.forEach((element) => {
+    const mermaid = element as HTMLElement
+    if (!mermaid.dataset.mermaidCode) {
+      mermaid.dataset.mermaidCode = mermaid.textContent?.trim() ?? ''
+    }
+  })
+
+  try {
+    const { default: mermaid } = await import('mermaid')
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+    })
+    mermaid.run()
+  }
+  catch (error) {
+    console.error('Failed to load Mermaid:', error)
+  }
+}
+
 async function setupMediaEmbeds() {
   await Promise.allSettled([
     setupYouTubeEmbeds(),
     setupTwitterEmbeds(),
+    setupMermaidEmbeds(),
   ])
+}
+
+function updateMermaidTheme() {
+  const mermaids = document.querySelectorAll('pre.mermaid[data-mermaid-code]')
+  if (mermaids.length === 0) {
+    return
+  }
+
+  const isDark = document.documentElement.classList.contains('dark')
+
+  import('mermaid').then(({ default: mermaid }) => {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? 'dark' : 'default',
+    })
+
+    mermaids.forEach((element) => {
+      const mermaid = element as HTMLElement
+      mermaid.innerHTML = mermaid.dataset.mermaidCode ?? ''
+      mermaid.removeAttribute('data-processed')
+    })
+
+    mermaid.run()
+  }).catch((error) => {
+    console.error('Failed to update Mermaid theme:', error)
+  })
 }
 
 function handleGalleryWheel(e: WheelEvent) {
@@ -57,6 +110,7 @@ function handleGalleryWheel(e: WheelEvent) {
 }
 
 document.addEventListener('astro:page-load', setupMediaEmbeds)
+document.addEventListener('theme-changed', updateMermaidTheme)
 document.addEventListener('wheel', handleGalleryWheel, { passive: false })
 setupMediaEmbeds()
 </script>

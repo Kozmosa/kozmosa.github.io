@@ -81,7 +81,20 @@ export default defineConfig({
       },
     },
   },
-  vite: {},
+  vite: {
+    plugins: [
+      {
+        name: 'prefix-font-urls-with-base',
+        transform(code, id) {
+          if (!id.endsWith('src/styles/font.css')) {
+            return null
+          }
+
+          return code.replace(/url\("\/fonts\//g, `url("${base}/fonts/`)
+        },
+      },
+    ],
+  },
   devToolbar: {
     enabled: false,
   },
