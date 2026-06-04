@@ -54,7 +54,8 @@ const pageImage = postSlug
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content={metaTheme} />
 
-<!-- Fonts loaded via @font-face in font.css (self-hosted) -->
+<!-- Fonts: Merriweather via @font-face in font.css, LXGW WenKai SC via jsdelivr CDN with unicode-range subsetting -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
 {katexEnabled && <link rel="stylesheet" href={katexCSS} media="print" onload={`this.media='all'`} />}
 
 <!-- Site Links -->

@@ -40,10 +40,11 @@ export default defineConfig({
       caution: 'oklch(50.5% 0.213 27.518 / 0.8)', // red-700
     },
     fontFamily: {
-      title: ['Merriweather', 'LXGW WenKai TC', 'ui-serif', 'Georgia', 'serif'],
-      navbar: ['Merriweather', 'LXGW WenKai TC', 'ui-serif', 'Georgia', 'serif'],
+      title: ['Merriweather', 'LXGW WenKai', 'ui-serif', 'Georgia', 'serif'],
+      navbar: ['Merriweather', 'LXGW WenKai', 'ui-serif', 'Georgia', 'serif'],
       time: ['Merriweather', 'ui-serif', 'Georgia', 'serif'],
-      serif: ['Merriweather', 'LXGW WenKai TC', 'ui-serif', 'Georgia', 'serif'],
+      serif: ['Merriweather', 'LXGW WenKai', 'ui-serif', 'Georgia', 'serif'],
+      sans: ['LXGW WenKai', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
   },
   rules: [
