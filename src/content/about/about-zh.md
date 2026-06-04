@@ -5,7 +5,7 @@ lang: zh
 <div class="academic-header">
   <h1 class="academic-name">Kozmosa</h1>
   <p class="academic-tagline">
-    <a href="https://www.scut.edu.cn/new/" target="_blank" rel="noopener">华南理工大学</a>在读本科生，对系统编程、AI 工具链和有用的东西感兴趣。
+    <em>构建系统，超越计算。</em><a href="https://www.scut.edu.cn/new/" target="_blank" rel="noopener">华南理工大学</a>在读本科生。
   </p>
   <ul class="academic-links">
     <li><a href="https://github.com/kozmosa" target="_blank" rel="noopener">GitHub</a></li>

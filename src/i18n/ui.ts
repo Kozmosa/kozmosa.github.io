@@ -17,8 +17,8 @@ interface Translation {
 export const ui: Record<Language, Translation> = {
   en: {
     title: 'Kozmosa',
-    subtitle: 'Notes on computing and beyond',
-    description: 'A personal blog by Kozmosa — notes on computing, code, and beyond.',
+    subtitle: 'Build systems, beyond computing.',
+    description: 'Kozmosa — build systems, beyond computing.',
     home: 'Home',
     posts: 'Posts',
     tags: 'Tags',
@@ -30,8 +30,8 @@ export const ui: Record<Language, Translation> = {
   },
   zh: {
     title: 'Kozmosa',
-    subtitle: '关于计算与超越的笔记',
-    description: 'Kozmosa 的个人博客 —— 关于计算、代码与更多的思考。',
+    subtitle: '构建系统，超越计算。',
+    description: 'Kozmosa —— 构建系统，超越计算。',
     home: '主页',
     posts: '文章',
     tags: '标签',

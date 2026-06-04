@@ -5,7 +5,7 @@ lang: en
 <div class="academic-header">
   <h1 class="academic-name">Kozmosa</h1>
   <p class="academic-tagline">
-    Undergraduate student at <a href="https://www.scut.edu.cn/new/" target="_blank" rel="noopener">South China University of Technology</a>. Interested in systems programming, AI tooling, and building things that help people.
+    <em>Build systems, beyond computing.</em> Undergraduate student at <a href="https://www.scut.edu.cn/new/" target="_blank" rel="noopener">South China University of Technology</a>.
   </p>
   <ul class="academic-links">
     <li><a href="https://github.com/kozmosa" target="_blank" rel="noopener">GitHub</a></li>
