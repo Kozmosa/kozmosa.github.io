@@ -1,7 +1,7 @@
 /* Merriweather — Latin text */
 @font-face {
   font-family: 'Merriweather';
-  src: url('/fonts/Merriweather-Regular.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/merriweather@5.2.11/files/merriweather-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: 'Merriweather';
-  src: url('/fonts/Merriweather-Bold.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/merriweather@5.2.11/files/merriweather-latin-700-normal.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: 'Merriweather';
-  src: url('/fonts/Merriweather-Italic.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/merriweather@5.2.11/files/merriweather-latin-400-italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -26,7 +26,7 @@
 /* LXGW WenKai TC — Chinese text */
 @font-face {
   font-family: 'LXGW WenKai TC';
-  src: url('/fonts/LXGWWenKaiTC-Regular.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/lxgw-wenkai-tc@5.2.9/files/lxgw-wenkai-tc-chinese-traditional-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -34,7 +34,7 @@
 
 @font-face {
   font-family: 'LXGW WenKai TC';
-  src: url('/fonts/LXGWWenKaiTC-Bold.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/lxgw-wenkai-tc@5.2.9/files/lxgw-wenkai-tc-chinese-traditional-700-normal.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
