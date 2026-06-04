@@ -153,18 +153,15 @@ const pageImage = postSlug
 </script>
 
 <!-- Google Analytics -->
-<!-- Define gtag on window object for proper Partytown forwarding -->
-<!-- See https://github.com/QwikDev/partytown/issues/382 -->
 {googleAnalyticsID && (
   <>
     <script
       is:inline
-      type="text/partytown"
+      async
       src={customGoogleAnalyticsJS || `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsID}`}
     />
     <script
       is:inline
-      type="text/partytown"
       define:vars={{
         googleAnalyticsID,
         customGoogleAnalyticsJS,
@@ -193,7 +190,7 @@ const pageImage = postSlug
 {umamiAnalyticsID && (
   <script
     is:inline
-    type="text/partytown"
+    async
     crossorigin="anonymous"
     data-website-id={umamiAnalyticsID}
     src={customUmamiAnalyticsJS || 'https://cloud.umami.is/script.js'}

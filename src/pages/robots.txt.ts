@@ -11,7 +11,6 @@ export const GET: APIRoute = ({ site }) => {
     `Disallow: ${base}/feeds/`,
     `Disallow: ${base}/giscus/`,
     `Disallow: ${base}/og/`,
-    `Disallow: ${base}/~partytown/`,
     '',
     `Sitemap: ${sitemapURL.href}`,
   ].join('\n')

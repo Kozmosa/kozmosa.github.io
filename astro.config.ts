@@ -1,11 +1,9 @@
 import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
-import partytown from '@astrojs/partytown'
 import sitemap from '@astrojs/sitemap'
 import Compress from 'astro-compress'
 import { defineConfig } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
-import rehypeMermaid from 'rehype-mermaid'
 import rehypeSlug from 'rehype-slug'
 import remarkDirective from 'remark-directive'
 import remarkMath from 'remark-math'
@@ -47,11 +45,6 @@ export default defineConfig({
       injectReset: true,
     }),
     mdx(),
-    partytown({
-      config: {
-        forward: ['dataLayer.push', 'gtag'],
-      },
-    }),
     sitemap(),
     Compress({
       CSS: true,
@@ -72,7 +65,6 @@ export default defineConfig({
       ],
       rehypePlugins: [
         rehypeKatex,
-        [rehypeMermaid, { strategy: 'pre-mermaid' }],
         rehypeSlug,
         rehypeHeadingAnchor,
         rehypeImageProcessor,
@@ -80,10 +72,7 @@ export default defineConfig({
         rehypeCodeCopyButton,
       ],
     }),
-    syntaxHighlight: {
-      type: 'shiki',
-      excludeLangs: ['mermaid'],
-    },
+    syntaxHighlight: 'shiki',
     shikiConfig: {
       // Available themes: https://shiki.style/themes
       themes: {
@@ -92,27 +81,10 @@ export default defineConfig({
       },
     },
   },
-  vite: {
-    plugins: [
-      {
-        name: 'prefix-font-urls-with-base',
-        transform(code, id) {
-          if (!id.endsWith('src/styles/font.css')) {
-            return null
-          }
-
-          return code.replace(/url\("\/fonts\//g, `url("${base}/fonts/`)
-        },
-      },
-    ],
-  },
+  vite: {},
   devToolbar: {
     enabled: false,
   },
   // For local development
-  server: {
-    headers: {
-      'Access-Control-Allow-Origin': 'https://giscus.app',
-    },
-  },
+  server: {},
 })

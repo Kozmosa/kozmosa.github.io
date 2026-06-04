@@ -55,15 +55,6 @@ export interface ThemeConfig {
       emitMetadata?: '0' | '1'
       inputPosition?: 'top' | 'bottom'
     }
-    twikoo?: {
-      envId?: string
-    }
-    waline?: {
-      serverURL?: string
-      emoji?: string[]
-      search?: boolean
-      imageUploader?: boolean
-    }
   }
   seo?: {
     twitterID?: string
