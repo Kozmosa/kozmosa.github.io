@@ -54,12 +54,10 @@ const pageImage = postSlug
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content={metaTheme} />
 
-<!-- Preload -->
-<link rel="preload" href={`${base}/fonts/EarlySummer-VF-Split/EarlySummer-VF-Subset.woff2`} as="font" type="font/woff2" crossorigin />
-<link rel="preload" href={`${base}/fonts/Snell-Black-SF.woff2`} as="font" type="font/woff2" crossorigin />
-<link rel="preload" href={`${base}/fonts/Snell-Bold-SF.woff2`} as="font" type="font/woff2" crossorigin />
-<link rel="preload" href={`${base}/fonts/STIX-VF.woff2`} as="font" type="font/woff2" crossorigin />
-<link rel="preload" href={`${base}/fonts/STIX-Italic-VF.woff2`} as="font" type="font/woff2" crossorigin />
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 {katexEnabled && <link rel="stylesheet" href={katexCSS} media="print" onload={`this.media='all'`} />}
 
 <!-- Site Links -->
@@ -71,7 +69,7 @@ const pageImage = postSlug
   <link
     rel="alternate"
     href={`${Astro.url.origin}${base}${lang === defaultLocale ? '' : `/${lang}/`}`}
-    hreflang={lang === 'zh-tw' ? 'zh-TW' : lang}
+    hreflang={lang}
   />
 ))}
 

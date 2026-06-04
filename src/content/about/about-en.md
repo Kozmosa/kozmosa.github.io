@@ -2,4 +2,10 @@
 lang: en
 ---
 
-Retypeset is a static blog theme based on the [Astro](https://astro.build/) framework. Inspired by [Typography](https://astro-theme-typography.vercel.app/), Retypeset establishes a new visual standard and reimagines the layout of all pages, creating a reading experience reminiscent of paper books, reviving the beauty of typography. Details in every sight, elegance in every space.
+Hi, I'm Kozmosa, an undergraduate student majoring in Computer Science at South China University of Technology.
+
+I'm passionate about technology and love exploring the world of computing — from low-level systems to high-level applications, from algorithm theory to engineering practice.
+
+This blog is where I document my thoughts and notes from learning and exploration.
+
+- GitHub: [kozmosa](https://github.com/kozmosa)
