@@ -1,276 +1,328 @@
-/*!
- * Markdown Styles
- * Project: https://github.com/sivan/heti
- * Source: https://unpkg.com/heti/umd/heti.min.css
- */
+/* Markdown content styles, ported from PaperMod md-content.css
+ * Applied to the .md-content wrapper around rendered markdown */
 
-/* Global Styles */
-.heti {
-  --at-apply: 'break-words leading-normal hyphens-auto cjk:tracking-wide';
-}
-
-/* Customized Post Title */
-.heti .post-title {
-  --at-apply: 'mb-2 mt-0 text-8.5 font-bold lg:text-9';
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
+  margin: 24px 0 16px;
 }
 
-/* Headings */
-.heti :where(h1, h2, h3, h4, h5, h6) {
-  --at-apply: 'mb-4 mt-1.5em scroll-mt-20 font-semibold';
-}
-.heti :where(h1) {
-  --at-apply: 'text-7 c-primary';
-}
-.heti :where(h2) {
-  --at-apply: 'text-6 c-primary';
-}
-.heti :where(h3) {
-  --at-apply: 'text-5';
-}
-.heti :where(h4) {
-  --at-apply: 'text-4.5';
-}
-.heti :where(h5) {
-  --at-apply: 'text-4';
-}
-.heti :where(h6) {
-  --at-apply: 'font-normal';
-}
-.heti :where(h1, h2, h3) {
-  --at-apply: 'text-balance leading-1.33em cjk:text-pretty cjk:tracking-wider';
-}
-.heti :where(h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6) {
-  --at-apply: 'mt-4';
+.md-content h1 {
+  margin: 40px auto 32px;
+  font-size: 40px;
 }
 
-/* Paragraphs */
-.heti :where(p:not(.no-heti):not(.no-heti *)) {
-  --at-apply: 'mb-4 text-pretty cjk:text-justify';
+.md-content h2 {
+  margin: 32px auto 24px;
+  font-size: 32px;
 }
 
-/* Links */
-.heti :where(a:not(.no-heti):not(.no-heti *)) {
-  --at-apply: 'font-semibold tracking-normal underline underline-0.075em decoration-secondary/80 underline-offset-0.1em cjk:break-all';
-  --at-apply: 'transition-colors ease-out hover:(c-primary decoration-primary/80) lg:underline-0.1em';
+.md-content h3 {
+  font-size: 24px;
 }
 
-/* Images */
-.heti :where(img:not(.no-heti):not(.no-heti *)) {
-  --at-apply: 'mx-auto cursor-zoom-in';
-}
-.heti :where(img:not(figure img):not(.no-heti):not(.no-heti *)) {
-  --at-apply: 'my-6';
-}
-.heti :where(figure) {
-  --at-apply: 'my-6 w-full';
-}
-.heti :where(figcaption) {
-  --at-apply: 'mt-2.5 text-center text-sm c-secondary/80';
-}
-.heti :is(h1, h2, h3, h4, h5, h6, img, figure) + :is(img, figure) {
-  --at-apply: 'mt-4';
-}
-.heti :is(img, figure):has(+ :is(img, figure)) {
-  --at-apply: 'mb-4';
+.md-content h4 {
+  font-size: 16px;
 }
 
-/* Code Blocks */
-.heti :where(pre) {
-  --at-apply: 'overflow-auto uno-round-border px-4 py-3 bg-secondary/5!';
-  scrollbar-width: thin;
-  scrollbar-color: oklch(var(--un-preset-theme-colors-secondary) / 0) transparent;
-  transition: scrollbar-color 0.3s ease-out;
-}
-.heti :where(pre):hover {
-  scrollbar-color: oklch(var(--un-preset-theme-colors-secondary) / 0.15) transparent;
-}
-.heti pre code {
-  --at-apply: 'border-none bg-transparent p-0';
-}
-html.dark .heti pre span {
-  --at-apply: 'text-[var(--shiki-dark)]!';
-}
-.heti .code-block-wrapper {
-  --at-apply: 'my-6 relative';
-}
-.heti :is(h1, h2, h3, h4, h5, h6, .code-block-wrapper) + .code-block-wrapper {
-  --at-apply: 'mt-4';
-}
-.heti .code-block-wrapper:has(+ .code-block-wrapper) {
-  --at-apply: 'mb-4';
+.md-content h5 {
+  font-size: 14px;
 }
 
-/* Inline Code */
-.heti :where(code) {
-  --at-apply: 'uno-round-border bg-secondary/5 px-0.4em py-0.15em text-0.85em tracking-normal cjk:break-all';
-  counter-reset: line;
-}
-.heti code span.line {
-  --at-apply: 'relative pl-8';
-}
-.heti code span.line::before {
-  --at-apply: 'absolute left-0 w-4 c-secondary/40 leading-1.9em';
-  content: counter(line);
-  counter-increment: line;
-  direction: rtl;
+.md-content h6 {
+  font-size: 12px;
 }
 
-/* Blockquotes */
-.heti :where(blockquote) {
-  --at-apply: 'my-6 border-l-4 border-secondary/25 border-solid px-4 py-0.5 c-secondary/80';
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
+  scroll-margin-top: calc(var(--header-height) + 10px);
 }
-.heti blockquote[class*="admonition-"] {
-  --at-apply: 'py-1.5 c-secondary';
+
+.md-content a:not(.heading-anchor-link):not(.no-heti):not(.no-heti *) {
+  text-underline-offset: 0.3rem;
+  text-decoration: underline;
 }
-.heti blockquote blockquote {
-  --at-apply: 'py-0';
+
+.md-content del {
+  text-decoration: line-through;
 }
-.heti blockquote > :first-child {
-  --at-apply: 'mt-0';
+
+.md-content dl:not(:last-child),
+.md-content ol:not(:last-child),
+.md-content p:not(:last-child),
+.md-content figure:not(:last-child),
+.md-content ul:not(:last-child) {
+  margin-bottom: var(--content-gap);
 }
-.heti blockquote > :last-child {
-  --at-apply: 'mb-0';
+
+.md-content ol,
+.md-content ul {
+  padding-inline-start: 1.25rem;
 }
-.heti :is(h1, h2, h3, h4, h5, h6, blockquote) + blockquote {
-  --at-apply: 'mt-4';
+
+.md-content ul {
+  list-style: disc;
 }
-.heti blockquote:has(+ blockquote) {
-  --at-apply: 'mb-4';
+
+.md-content ol {
+  list-style: decimal;
+}
+
+.md-content li {
+  margin-top: 0.3rem;
+}
+
+.md-content li p {
+  margin-bottom: 0;
+}
+
+.md-content dl {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.md-content dt {
+  width: 25%;
+  font-weight: 700;
+}
+
+.md-content dd {
+  width: 75%;
+  margin-inline-start: 0;
+  padding-inline-start: 10px;
+}
+
+.md-content dd ~ dd,
+.md-content dt ~ dt {
+  margin-top: 10px;
 }
 
 /* Tables */
-.heti :where(table) {
-  --at-apply: 'my-6 box-border block max-w-full table-fixed overflow-x-auto';
+.md-content table {
+  display: block;
+  max-width: 100%;
+  margin-bottom: var(--content-gap);
   scrollbar-width: thin;
-  scrollbar-color: oklch(var(--un-preset-theme-colors-secondary) / 0) transparent;
-  transition: scrollbar-color 0.3s ease-out;
-}
-.heti :where(table):hover {
-  scrollbar-color: oklch(var(--un-preset-theme-colors-secondary) / 0.15) transparent;
-}
-.heti :where(th, td) {
-  --at-apply: 'border-b border-b-secondary/25 px-3 pb-1.5';
-}
-.heti tr :where(td:first-child, th:first-child) {
-  --at-apply: 'pl-0';
-}
-.heti tr :where(td:last-child, th:last-child) {
-  --at-apply: 'pr-0';
-}
-.heti :where(td) {
-  --at-apply: 'pt-1.5';
-}
-.heti tr:last-child :where(td) {
-  --at-apply: 'border-b-0';
-}
-.heti :is(h1, h2, h3, h4, h5, h6, table) + table {
-  --at-apply: 'mt-4';
-}
-.heti table:has(+ table) {
-  --at-apply: 'mb-4';
 }
 
-/* Lists */
-.heti :where(ul, ol) {
-  --at-apply: 'my-6 pl-2em';
-}
-.heti :where(ul, ol) :where(ul, ol) {
-  --at-apply: 'mb-0.25em mt-0';
-}
-.heti :where(ul) {
-  --at-apply: 'list-disc';
-}
-.heti :where(ol) {
-  --at-apply: 'list-decimal';
-}
-.heti :where(ul, ol) :where(ul) {
-  --at-apply: 'list-circle';
-}
-.heti :where(ul, ol) :where(ul, ol) :where(ul) {
-  --at-apply: 'list-square';
-}
-.heti :where(li) {
-  --at-apply: 'mt-0.25em list-unset';
-}
-.heti :is(h1, h2, h3, h4, h5, h6, ul, ol) + :is(ul, ol) {
-  --at-apply: 'mt-4';
-}
-.heti :is(ul, ol):has(+ :is(ul, ol)) {
-  --at-apply: 'mb-4';
+.md-content table th,
+.md-content table td {
+  min-width: 80px;
+  padding: 6px 13px;
+  line-height: 1.5;
+  border: 1px solid var(--border);
 }
 
-/* Superscript and Subscript >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
-.heti :where(sub, sup) {
-  --at-apply: 'relative mx-0.1em align-baseline text-0.75em';
-}
-.heti :where(sub) {
-  --at-apply: 'bottom--0.25em';
-}
-.heti :where(sup) {
-  --at-apply: 'top--0.5em';
+.md-content table th {
+  text-align: start;
 }
 
-/* Abbreviations */
-.heti :where(abbr[title]) {
-  --at-apply: 'cursor-help border-b-1 border-secondary border-dotted pb-0.25 no-underline';
+/* Code Blocks */
+.md-content pre {
+  position: relative;
+  margin-bottom: var(--content-gap);
+  padding: 10px;
+  background: var(--code-block-bg) !important;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
-/* Wavy Underline */
-.heti :where(u) {
-  --at-apply: 'underline decoration-red-400 underline-offset-0.25em decoration-wavy';
-}
-html.dark .heti :where(u) {
-  --at-apply: 'decoration-red-400/60';
-}
-
-/* Keyboard Input */
-.heti :where(kbd) {
-  --at-apply: 'inline-block px-0.4em py-0.3em text-0.85em font-bold leading-none tracking-normal';
-  --at-apply: 'uno-round-border border-secondary/40 c-secondary';
+.md-content pre code {
+  display: grid;
+  margin: auto 0;
+  padding: 0;
+  color: rgb(213, 213, 214);
+  background: transparent !important;
+  border-radius: 0;
+  overflow-x: auto;
+  word-break: normal;
 }
 
-/* Highlighted Text */
-.heti :where(mark) {
-  --at-apply: 'bg-highlight py-0.65 text-inherit';
+html.dark .md-content pre,
+html.dark .md-content pre code {
+  background: var(--code-block-bg) !important;
 }
 
-/* Footnotes */
-.heti :where(sub, sup) :where(a) {
-  --at-apply: 'no-underline';
-}
-.heti :where(sup):target,
-.heti :where(sup) a:target {
-  --at-apply: 'bg-highlight';
-}
-.heti .data-footnote-backref {
-  --at-apply: 'font-serif no-underline';
+/* Shiki dual-theme: swap token colors in dark mode */
+html.dark .md-content pre span {
+  color: var(--shiki-dark) !important;
 }
 
-/* Horizontal Rules */
-.heti :where(hr) {
-  --at-apply: 'mb-10.5 mt-14.5 h-auto border-none text-center';
-}
-.heti :where(hr)::before {
-  --at-apply: 'whitespace-pre text-6 c-secondary/25 font-serif';
-  content: "*   *   *";
+.md-content .code-block-wrapper {
+  position: relative;
 }
 
-/* Bold */
-.heti :where(b, strong) {
-  --at-apply: 'font-semibold';
+.md-content .code-block-wrapper pre {
+  margin-bottom: var(--content-gap);
 }
 
-/* Italic */
-.heti :where(em) {
-  --at-apply: 'italic';
+/* Inline Code */
+.md-content :not(pre) > code {
+  padding: 0.2rem 0.3rem;
+  font-size: 0.78em;
+  line-height: 1.5;
+  background: var(--code-bg);
+  border-radius: 0.2rem;
 }
 
-/* Cite */
-.heti :where(cite) {
-  --at-apply: 'cjk:not-italic';
+/* Blockquotes */
+.md-content blockquote {
+  margin: 1rem 0;
+  padding-inline-start: 1rem;
+  border-inline-start: 0.3rem solid var(--content);
 }
 
-/* Quotes */
-.heti :where(q:is(:lang(zh), :lang(ja), :lang(ko))) {
-  quotes: "「" "」" "『" "』";
+.md-content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.md-content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* Horizontal Rule */
+.md-content hr {
+  margin: 30px 0;
+  height: 2px;
+  background: var(--tertiary);
+  border: 0;
+}
+
+/* Media */
+.md-content iframe {
+  max-width: 100%;
+}
+
+.md-content img {
+  border-radius: var(--radius);
+  margin: 1rem auto;
+}
+
+.md-content img[src*='#center'] {
+  margin: 1rem auto;
+}
+
+.md-content figure {
+  margin: 1rem 0;
+}
+
+.md-content figure.align-center {
+  text-align: center;
+}
+
+.md-content figure > figcaption {
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 8px 0 16px;
+  text-align: center;
+}
+
+.md-content figure > figcaption > p {
+  color: var(--secondary);
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.md-content img.in-text {
+  display: inline;
+  margin: auto;
+}
+
+.md-content audio {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  height: 2.5rem;
+  margin-bottom: var(--content-gap);
+}
+
+.md-content video {
+  border: 1px solid var(--code-bg);
+  border-radius: var(--radius);
+  max-width: 100%;
+}
+
+/* Heading Anchor Links */
+.md-content .heading-anchor-link {
+  display: inline-flex;
+  visibility: hidden;
+  color: var(--secondary);
+  margin-inline-start: 0.5em;
+  font-weight: 500;
+  user-select: none;
+  vertical-align: baseline;
+}
+
+.md-content .heading-anchor-link svg {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.md-content h1:hover .heading-anchor-link,
+.md-content h2:hover .heading-anchor-link,
+.md-content h3:hover .heading-anchor-link,
+.md-content h4:hover .heading-anchor-link,
+.md-content h5:hover .heading-anchor-link,
+.md-content h6:hover .heading-anchor-link,
+.md-content .heading-anchor-link:hover {
+  visibility: visible;
+}
+
+.md-content .heading-anchor-link:hover {
+  color: var(--content);
+}
+
+/* Inline Extras */
+.md-content mark {
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.md-content kbd {
+  display: inline-block;
+  padding: 0.1em 0.4em;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1.4;
+  border: 1px solid var(--tertiary);
+  border-radius: 0.3rem;
+  color: var(--secondary);
+}
+
+.md-content sub,
+.md-content sup {
+  position: relative;
+  font-size: 0.75em;
+  vertical-align: baseline;
+}
+
+.md-content sub {
+  bottom: -0.25em;
+}
+
+.md-content sup {
+  top: -0.5em;
+}
+
+.md-content .data-footnote-backref {
+  text-decoration: none;
+}
+
+.md-content b,
+.md-content strong {
+  font-weight: 700;
+}
+
+.md-content em {
+  font-style: italic;
 }

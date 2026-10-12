@@ -18,8 +18,9 @@ const { Content } = aboutEntry ? await render(aboutEntry) : { Content: null }
 ---
 
 <Layout>
-  <div class="uno-decorative-line" />
-  <div class="heti academic-home">
-    {Content && <Content />}
-  </div>
+  <article class="home-info">
+    <div class="md-content academic-home">
+      {Content && <Content />}
+    </div>
+  </article>
 </Layout>

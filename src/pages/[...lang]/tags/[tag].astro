@@ -1,8 +1,9 @@
 ---
+import type { Language } from '@/i18n/config'
 import PostList from '@/components/PostList.astro'
-import TagList from '@/components/TagList.astro'
 import { allLocales } from '@/config'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { getTagPath } from '@/i18n/path'
 import Layout from '@/layouts/Layout.astro'
 import { getAllTags, getPostsByTag, getTagSupportedLangs } from '@/utils/content'
 
@@ -25,24 +26,21 @@ const { tag } = Astro.props
 const currentLang = getLangFromLocale(Astro.currentLocale)
 const posts = await getPostsByTag(tag, currentLang)
 const allTags = await getAllTags(currentLang)
-const supportedLangs = await getTagSupportedLangs(tag)
+const supportedLangs: Language[] = await getTagSupportedLangs(tag)
 ---
 
 <Layout supportedLangs={supportedLangs}>
-  <!-- Decorative Line -->
-  <div class="uno-decorative-line" />
-  <!-- Tag List -->
-  <TagList
-    tags={allTags}
-    currentTag={tag}
-    lang={currentLang}
-  />
-
-  <!-- Posts List -->
-  <div class="mt-10.5">
-    <PostList
-      posts={posts}
-      lang={currentLang}
-    />
+  <header class="page-header">
+    <h1>#{tag}</h1>
+  </header>
+  <ul class="terms-tags">
+    {allTags.map(tagName => (
+      <li>
+        <a href={getTagPath(tagName, currentLang)}>{tagName}</a>
+      </li>
+    ))}
+  </ul>
+  <div style="margin-top: var(--content-gap)">
+    <PostList posts={posts} lang={currentLang} />
   </div>
 </Layout>

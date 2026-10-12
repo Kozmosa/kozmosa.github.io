@@ -20,16 +20,15 @@ const friends = [
 ---
 
 <Layout>
-  <div class="uno-decorative-line" />
-  <div class="heti">
-    <h2>{currentUI.friends}</h2>
-    <ul class="list-none pl-0">
+  <header class="page-header">
+    <h1>{currentUI.friends}</h1>
+  </header>
+  <div class="md-content">
+    <ul>
       {friends.map(f => (
-        <li class="mb-4">
-          <a href={f.url} target="_blank" rel="noopener noreferrer" class="c-primary hover:underline">
-            {f.name}
-          </a>
-          <p class="mt-1 text-sm c-secondary">{f.desc}</p>
+        <li>
+          <a href={f.url} target="_blank" rel="noopener noreferrer">{f.name}</a>
+          {' — '}{f.desc}
         </li>
       ))}
     </ul>

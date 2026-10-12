@@ -1,7 +1,8 @@
 ---
-import TagList from '@/components/TagList.astro'
 import { allLocales } from '@/config'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { getTagPath } from '@/i18n/path'
+import { ui } from '@/i18n/ui'
 import Layout from '@/layouts/Layout.astro'
 import { getAllTags } from '@/utils/content'
 
@@ -12,15 +13,19 @@ export async function getStaticPaths() {
 }
 
 const currentLang = getLangFromLocale(Astro.currentLocale)
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
 const allTags = await getAllTags(currentLang)
 ---
 
 <Layout>
-  <!-- Decorative Line -->
-  <div class="uno-decorative-line" />
-  <!-- Tag List -->
-  <TagList
-    tags={allTags}
-    lang={currentLang}
-  />
+  <header class="page-header">
+    <h1>{currentUI.tags}</h1>
+  </header>
+  <ul class="terms-tags">
+    {allTags.map(tag => (
+      <li>
+        <a href={getTagPath(tag, currentLang)}>{tag}</a>
+      </li>
+    ))}
+  </ul>
 </Layout>

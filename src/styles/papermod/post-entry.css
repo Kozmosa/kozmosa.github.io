@@ -1,0 +1,70 @@
+/* PaperMod post entry cards and home-info block */
+
+.post-entry {
+  position: relative;
+  margin-bottom: var(--gap);
+  padding: var(--gap);
+  background: var(--entry);
+  border-radius: var(--radius);
+  transition: transform 0.25s ease;
+  border: 1px solid var(--border);
+}
+
+.post-entry:hover,
+.post-entry:focus-within {
+  transform: translateY(-2px);
+  border-color: var(--tertiary);
+}
+
+.entry-header h2 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.entry-content {
+  margin: 8px 0;
+  color: var(--secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.entry-footer {
+  color: var(--secondary);
+  font-size: 13px;
+}
+
+.entry-link {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--radius);
+}
+
+.entry-hint {
+  color: var(--secondary);
+}
+
+.entry-hint-parent {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+/* Home info block on the homepage */
+.home-info {
+  position: relative;
+  margin: var(--gap) 0 calc(var(--gap) * 2) 0;
+}
+
+.home-info .entry-content {
+  --content-gap: 0.5rem;
+  -webkit-line-clamp: unset;
+  margin: 0;
+}

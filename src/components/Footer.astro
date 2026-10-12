@@ -3,13 +3,12 @@ import { themeConfig } from '@/config'
 import { getLangFromPath } from '@/i18n/lang'
 import { getLocalizedPath } from '@/i18n/path'
 
-const { author } = themeConfig.site
+const { title } = themeConfig.site
 const { links: socialLinks, startYear } = themeConfig.footer
 
 const currentYear = new Date().getFullYear()
 const year = Number(startYear) === currentYear ? startYear : `${startYear}-${currentYear}`
 
-// i18n RSS Feed Path
 const currentLang = getLangFromPath(Astro.url.pathname)
 const links = socialLinks.map(({ name, url, ...rest }) => {
   if (name === 'RSS') {
@@ -22,27 +21,23 @@ const links = socialLinks.map(({ name, url, ...rest }) => {
 
   return { name, url, ...rest }
 })
-
-const footerLinkClass = 'highlight-hover py-0.8 transition-colors after:bottom-0.35em hover:c-primary'
 ---
 
-<footer
-  class="text-3 leading-1.25em font-navbar lg:text-3.5"
-  lg="uno-desktop-column bottom-20"
->
-  <p>
+<footer class="footer">
+  <span>
     {links.map((link, index) => (
       <>
-        <a class={footerLinkClass} href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a>&nbsp;{index < links.length - 1 && '/'}
+        <a href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a>
+        {index < links.length - 1 && ' / '}
       </>
     ))}
-  </p>
-
-  <p>
-    © {year} {author}
-  </p>
-
-  <p>
-    Powered by <a class={footerLinkClass} href="https://astro.build/" target="_blank" rel="noopener noreferrer">Astro</a> and <a class={footerLinkClass} href="https://github.com/radishzzz/astro-theme-retypeset" target="_blank" rel="noopener noreferrer">Retypeset</a>
-  </p>
+  </span>
+  <span>·</span>
+  <span>&copy; {year} <a href={getLocalizedPath('/', currentLang)}>{title}</a></span>
+  <span>·</span>
+  <span>
+    Powered by
+    <a href="https://astro.build/" rel="noopener" target="_blank">Astro</a> &
+    <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+  </span>
 </footer>

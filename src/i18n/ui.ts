@@ -10,8 +10,11 @@ interface Translation {
   about: string
   friends: string
   resume: string
-  resumeUrl: string
+  search: string
   toc: string
+  pinned: string
+  prevPost: string
+  nextPost: string
 }
 
 export const ui: Record<Language, Translation> = {
@@ -25,8 +28,11 @@ export const ui: Record<Language, Translation> = {
     about: 'About',
     friends: 'Friends',
     resume: 'Resume',
-    resumeUrl: 'https://kozmosa.github.io/resume',
+    search: 'Search',
     toc: 'Table of Contents',
+    pinned: 'Pinned',
+    prevPost: 'Prev',
+    nextPost: 'Next',
   },
   zh: {
     title: 'Kozmosa',
@@ -38,7 +44,10 @@ export const ui: Record<Language, Translation> = {
     about: '关于',
     friends: '友链',
     resume: '简历',
-    resumeUrl: 'https://kozmosa.github.io/resume',
+    search: '搜索',
     toc: '目录',
+    pinned: '置顶',
+    prevPost: '上一篇',
+    nextPost: '下一篇',
   },
 }

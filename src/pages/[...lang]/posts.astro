@@ -2,8 +2,10 @@
 import PostList from '@/components/PostList.astro'
 import { allLocales } from '@/config'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { getLocalizedPath } from '@/i18n/path'
+import { ui } from '@/i18n/ui'
 import Layout from '@/layouts/Layout.astro'
-import { getPinnedPosts, getPostsByYear } from '@/utils/content'
+import { getPinnedPosts, getRegularPosts } from '@/utils/content'
 
 export async function getStaticPaths() {
   return allLocales.map(lang => ({
@@ -12,24 +14,34 @@ export async function getStaticPaths() {
 }
 
 const currentLang = getLangFromLocale(Astro.currentLocale)
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
 const pinnedPosts = await getPinnedPosts(currentLang)
-const postsByYear = await getPostsByYear(currentLang)
+const regularPosts = await getRegularPosts(currentLang)
 ---
 
 <Layout>
-  <!-- Pinned Posts -->
-  {pinnedPosts.length > 0 && (
-    <section class="mb-7.5">
-      <div class="uno-decorative-line" />
-      <PostList posts={pinnedPosts} lang={currentLang} pinned={true} />
-    </section>
-  )}
+  <header class="page-header">
+    <h1>
+      {currentUI.posts}
+      <a class="rss-link" href={getLocalizedPath('/rss.xml', currentLang)} title="RSS" aria-label="RSS">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          height="23"
+        >
+          <path d="M4 11a9 9 0 0 1 9 9" />
+          <path d="M4 4a16 16 0 0 1 16 16" />
+          <circle cx="5" cy="19" r="1" />
+        </svg>
+      </a>
+    </h1>
+  </header>
 
-  <!-- Regular Posts -->
-  {[...postsByYear.entries()].map(([_year, posts]) => (
-    <section class="mb-7.5">
-      <div class="uno-decorative-line" />
-      <PostList posts={posts} lang={currentLang} />
-    </section>
-  ))}
+  <PostList posts={pinnedPosts} lang={currentLang} pinned={true} />
+  <PostList posts={regularPosts} lang={currentLang} />
 </Layout>

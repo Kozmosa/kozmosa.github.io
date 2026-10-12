@@ -1,0 +1,264 @@
+---
+import { allLocales } from '@/config'
+import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { ui } from '@/i18n/ui'
+import Layout from '@/layouts/Layout.astro'
+
+export async function getStaticPaths() {
+  return allLocales.map(lang => ({
+    params: { lang: getLangRouteParam(lang) },
+  }))
+}
+
+const currentLang = getLangFromLocale(Astro.currentLocale)
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
+---
+
+<Layout>
+  <header class="page-header">
+    <h1>
+      {currentUI.search}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </h1>
+  </header>
+
+  <div id="searchbox" class="searchbox">
+    <input
+      id="searchInput"
+      disabled
+      placeholder={`${currentUI.search} ↵`}
+      aria-label="search"
+      type="search"
+      autocomplete="off"
+      maxlength="64"
+    />
+    <ul id="searchResults" class="searchResults" aria-label="search results"></ul>
+  </div>
+</Layout>
+
+<script>
+import type { FuseResult } from 'fuse.js'
+import Fuse from 'fuse.js'
+
+interface SearchEntry {
+  title: string
+  permalink: string
+  summary: string
+  content: string
+}
+
+const fuseOptions = {
+  distance: 100,
+  threshold: 0.4,
+  ignoreLocation: true,
+  keys: ['title', 'permalink', 'summary', 'content'],
+}
+
+let fuse: Fuse<SearchEntry> | null = null
+let loadedIndexUrl = ''
+
+function debounce(fn: (...args: unknown[]) => void, delay: number) {
+  let timeout: ReturnType<typeof setTimeout>
+  return (...args: unknown[]) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(fn, delay, ...args)
+  }
+}
+
+function getElements() {
+  return {
+    resList: document.getElementById('searchResults'),
+    sInput: document.getElementById('searchInput') as HTMLInputElement | null,
+  }
+}
+
+function renderResults(results: FuseResult<SearchEntry>[]) {
+  const { resList } = getElements()
+  if (!resList) {
+    return
+  }
+
+  if (!Array.isArray(results) || results.length === 0) {
+    resList.innerHTML = ''
+    return
+  }
+
+  const fragment = document.createDocumentFragment()
+
+  for (const result of results) {
+    const li = document.createElement('li')
+    const titleText = document.createTextNode(result.item.title)
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.setAttribute('width', '24')
+    svg.setAttribute('height', '24')
+    svg.setAttribute('viewBox', '0 0 24 24')
+    svg.setAttribute('fill', 'none')
+    svg.setAttribute('stroke', 'currentColor')
+    svg.setAttribute('stroke-width', '2')
+    svg.setAttribute('stroke-linecap', 'round')
+    svg.setAttribute('stroke-linejoin', 'round')
+    svg.innerHTML = '<polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline>'
+
+    const link = document.createElement('a')
+    link.className = 'entry-link'
+    link.href = result.item.permalink
+    link.setAttribute('aria-label', result.item.title)
+
+    li.appendChild(titleText)
+    li.appendChild(svg)
+    li.appendChild(link)
+    fragment.appendChild(li)
+  }
+
+  resList.innerHTML = ''
+  resList.appendChild(fragment)
+}
+
+function performSearch() {
+  const { sInput } = getElements()
+  if (!fuse || !sInput) {
+    return
+  }
+
+  const query = sInput.value.trim()
+  if (!query) {
+    renderResults([])
+    return
+  }
+
+  renderResults(fuse.search(query))
+}
+
+async function initSearch() {
+  const { sInput } = getElements()
+  if (!sInput) {
+    return
+  }
+
+  sInput.disabled = false
+  sInput.focus()
+
+  const indexUrl = new URL('../index.json', window.location.href).href
+  if (loadedIndexUrl !== indexUrl) {
+    const response = await fetch(indexUrl)
+    if (!response.ok) {
+      throw new Error(`Search index load failed: ${response.status}`)
+    }
+    const data = await response.json() as SearchEntry[]
+    if (data) {
+      fuse = new Fuse(data, fuseOptions)
+      loadedIndexUrl = indexUrl
+    }
+  }
+}
+
+function reset() {
+  const { resList, sInput } = getElements()
+  if (!resList || !sInput) {
+    return
+  }
+  resList.innerHTML = ''
+  sInput.value = ''
+  sInput.focus()
+}
+
+function setActiveResult(element: HTMLElement | null | undefined) {
+  document.querySelectorAll('.focus').forEach(item => item.classList.remove('focus'))
+  if (!element) {
+    return
+  }
+  element.focus()
+  element.parentElement?.classList.add('focus')
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  const { resList, sInput } = getElements()
+  if (!resList || !sInput) {
+    return
+  }
+
+  const active = document.activeElement as HTMLElement | null
+  const firstResult = resList.firstElementChild
+  const lastResult = resList.lastElementChild
+
+  if (event.key === 'Escape') {
+    reset()
+    return
+  }
+
+  if (!firstResult || !document.getElementById('searchbox')?.contains(active)) {
+    return
+  }
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault()
+    if (active === sInput) {
+      setActiveResult(firstResult.querySelector('.entry-link'))
+    }
+    else if (active?.parentElement !== lastResult) {
+      setActiveResult(active?.parentElement?.nextElementSibling?.querySelector('.entry-link'))
+    }
+  }
+  else if (event.key === 'ArrowUp') {
+    event.preventDefault()
+    if (active?.parentElement === firstResult) {
+      setActiveResult(sInput)
+    }
+    else if (active !== sInput) {
+      setActiveResult(active?.parentElement?.previousElementSibling?.querySelector('.entry-link'))
+    }
+  }
+  else if (event.key === 'ArrowRight') {
+    if (active?.matches?.('.entry-link')) {
+      active.click()
+    }
+  }
+}
+
+const debouncedSearch = debounce(performSearch, 150)
+
+function bindSearchHandlers() {
+  const { sInput } = getElements()
+  if (!sInput) {
+    return
+  }
+  sInput.addEventListener('input', debouncedSearch)
+  sInput.addEventListener('search', () => {
+    if (!sInput.value) {
+      reset()
+    }
+  })
+}
+
+let keydownBound = false
+if (!keydownBound) {
+  document.addEventListener('keydown', handleKeydown)
+  keydownBound = true
+}
+
+document.addEventListener('astro:page-load', () => {
+  if (document.getElementById('searchInput')) {
+    bindSearchHandlers()
+    initSearch()
+  }
+})
+
+if (document.getElementById('searchInput')) {
+  bindSearchHandlers()
+  initSearch()
+}
+</script>

@@ -47,8 +47,9 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       },
     },
     fonts: [
-      './public/fonts/NotoSansSC-Bold.otf',
-      './public/fonts/NotoSansSC-Regular.otf',
+      // Fetched at build time; see https://api.fontsource.org/v1/fonts/noto-sans-sc
+      'https://api.fontsource.org/v1/fonts/noto-sans-sc/chinese-simplified-700-normal.ttf',
+      'https://api.fontsource.org/v1/fonts/noto-sans-sc/chinese-simplified-400-normal.ttf',
     ],
     bgGradient: [[242, 241, 245]],
   }),

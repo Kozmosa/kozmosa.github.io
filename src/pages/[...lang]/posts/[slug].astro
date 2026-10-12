@@ -4,13 +4,13 @@ import type { Language } from '@/i18n/config'
 import { getCollection, render } from 'astro:content'
 import Comment from '@/components/Comment/Index.astro'
 import PostDate from '@/components/PostDate.astro'
-import TagList from '@/components/TagList.astro'
-import BackButton from '@/components/Widgets/BackButton.astro'
 import TOC from '@/components/Widgets/TOC.astro'
 import { allLocales } from '@/config'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { getLocalizedPath, getPostPath, getTagPath } from '@/i18n/path'
+import { ui } from '@/i18n/ui'
 import Layout from '@/layouts/Layout.astro'
-import { checkPostSlugDuplication } from '@/utils/content'
+import { checkPostSlugDuplication, getPosts } from '@/utils/content'
 import { getPostDescription } from '@/utils/description'
 
 export async function getStaticPaths() {
@@ -22,9 +22,7 @@ export async function getStaticPaths() {
     throw new Error(`Duplicate post slugs:\n${duplicates.join('\n')}`)
   }
 
-  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   // Build a map of post slugs to their supported languages
-  // Handles both specific language posts (e.g., 'en') and universal posts (lang: '')
   const slugToLangsMap = new Map<string, Set<Language>>()
 
   for (const post of posts) {
@@ -45,13 +43,10 @@ export async function getStaticPaths() {
     }
   }
 
-  // Convert the map to a sorted record for the component props
-  // Ensure languages are always sorted by the order defined in config
   const slugToLangs: Record<string, Language[]> = {}
   for (const [slug, langs] of slugToLangsMap) {
     slugToLangs[slug] = [...langs].sort((a, b) => allLocales.indexOf(a) - allLocales.indexOf(b))
   }
-  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   return allLocales.flatMap(lang => posts
     // Show drafts in dev mode only
@@ -75,9 +70,16 @@ interface Props {
 
 const { post, supportedLangs } = Astro.props
 const currentLang = getLangFromLocale(Astro.currentLocale)
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
 const slug = post.data.abbrlink || post.id
 const description = getPostDescription(post, 'meta')
 const { Content, headings, remarkPluginFrontmatter } = await render(post)
+
+// Adjacent posts for the prev/next navigation (posts are sorted newest first)
+const allPosts = await getPosts(currentLang)
+const currentIndex = allPosts.findIndex(p => (p.data.abbrlink || p.id) === slug)
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
+const nextPost = currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
 ---
 
 <Layout
@@ -86,11 +88,35 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
   postSlug={post.id}
   supportedLangs={supportedLangs}
 >
-  <article class="heti">
-    <div class="relative">
-      <!-- Go Back Button On Desktop -->
-      <BackButton />
-      <!-- Title -->
+  <article class="post-single">
+    <header class="post-header">
+      <nav class="breadcrumbs" aria-label="breadcrumb">
+        <a href={getLocalizedPath('/', currentLang)}>{currentUI.home}</a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <a href={getLocalizedPath('/posts/', currentLang)}>{currentUI.posts}</a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <span>{post.data.title}</span>
+      </nav>
       <h1 class="post-title">
         <span
           transition:name={`post-${slug}${currentLang ? `-${currentLang}` : ''}`}
@@ -99,38 +125,56 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
           {post.data.title}
         </span>
       </h1>
+      {post.data.description && (
+        <div class="post-description">
+          {post.data.description}
+        </div>
+      )}
+      <div
+        class="post-meta"
+        transition:name={`time-${slug}${currentLang ? `-${currentLang}` : ''}`}
+        data-disable-theme-transition
+      >
+        <PostDate
+          date={post.data.published}
+          updatedDate={post.data.updated}
+          minutes={remarkPluginFrontmatter.minutes}
+        />
+      </div>
+    </header>
+
+    {post.data.toc && <TOC headings={headings} />}
+
+    <div class="post-content md-content">
+      <Content />
     </div>
 
-    <!-- Date -->
-    <div
-      id="post-date"
-      class="mb-17.2 block c-primary font-time"
-      transition:name={`time-${slug}${currentLang ? `-${currentLang}` : ''}`}
-      data-disable-theme-transition
-    >
-      <PostDate
-        date={post.data.published}
-        updatedDate={post.data.updated}
-        minutes={remarkPluginFrontmatter.minutes}
-      />
-    </div>
-    <!-- TOC -->
-    {post.data.toc && <TOC headings={headings} />}
-    <!-- Content -->
-    <div id="post-content">
-      <Content />
-      <!-- Copyright -->
-      <div id="post-copyright" />
-      <!-- Tag List -->
+    <footer class="post-footer">
       {post.data.tags?.length > 0 && (
-        <div class="mt-12.6 uno-decorative-line" />
-        <TagList
-          tags={post.data.tags}
-          lang={currentLang}
-        />
+        <ul class="post-tags">
+          {post.data.tags.map((tag: string) => (
+            <li><a href={getTagPath(tag, currentLang)}>{tag}</a></li>
+          ))}
+        </ul>
       )}
-      <!-- Comment -->
-      <Comment />
-    </div>
+      {(prevPost || nextPost) && (
+        <nav class="paginav">
+          {prevPost && (
+            <a class="prev" href={getPostPath(prevPost.data.abbrlink || prevPost.id, currentLang)}>
+              <span class="title">« {currentUI.prevPost}</span>
+              <span>{prevPost.data.title}</span>
+            </a>
+          )}
+          {nextPost && (
+            <a class="next" href={getPostPath(nextPost.data.abbrlink || nextPost.id, currentLang)}>
+              <span class="title">{currentUI.nextPost} »</span>
+              <span>{nextPost.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )}
+    </footer>
+
+    <Comment />
   </article>
 </Layout>
